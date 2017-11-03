@@ -16,19 +16,19 @@ module Session =
         keyPrefix <- prefix
 
     let private keyUsername () = keyPrefix + "Username"
-    let private keyRole () = keyPrefix + "Role"
+    let private keyIsAdmin () = keyPrefix + "IsAdmin"
 
     let init = initSession
 
     let setUser (user : User) : WebPart =
         setSessionValue (keyUsername ()) user.Username
-        >=> setSessionValue (keyRole ()) user.Role
+        >=> setSessionValue (keyIsAdmin ()) user.IsAdmin
 
     let getUser ctx =
         maybe {
             let! username = getSessionValue ctx (keyUsername ())
-            let! role = getSessionValue ctx (keyRole ())
-            return { Username = username; Role = role } }
+            let! isAdmin = getSessionValue ctx (keyIsAdmin ())
+            return { Username = username; IsAdmin = isAdmin } }
 
     let hasUser ctx =
         (getUser ctx).IsSome

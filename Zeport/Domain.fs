@@ -2,15 +2,12 @@
 
 module Domain =
 
-    type Role =
-        | Admin
-
     type Username = Username of string with
         member x.Value = let (Username value) = x in value
 
     type User = {
         Username : Username
-        Role : Role }
+        IsAdmin : bool }
 
     type ViewLoginResult =
         | GoHome
