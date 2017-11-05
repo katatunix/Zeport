@@ -1,15 +1,23 @@
 ﻿namespace Zeport
 
-open Ui
+open UiCommon
 
 module UiHome =
 
-    let render currentUser =
+    type HomeModel = {
+        Title : string
+        ResPath : string }
+
+    let render username =
         async {
+            let TITLE = "Welcome to Zeport"
+            let model = {
+                Title = TITLE
+                ResPath = Path.Res }
             let! html =
-                UiMainLayout.render
-                    "Welcome to Zeport"
-                    (UiBanner.render currentUser UiBanner.Item.Home)
-                    (UiSidebar.renderProjectTree ())
-                    (renderTemplate "Home.liquid" Path.Home)
+                renderMainLayout
+                    TITLE
+                    (renderBanner username Home)
+                    (renderProjectTree ())
+                    (renderTemplate "Home.liquid" model)
             return Text html }

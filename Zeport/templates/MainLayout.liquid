@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <title>{{ model.Title }}</title>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="icon" href="{{ model.ResPath }}/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{{ model.ResPath }}/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ model.ResPath }}/jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="{{ model.ResPath }}/jquery-ui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="{{ model.ResPath }}/main.css" />
+
+    <script src="{{ model.ResPath }}/jquery.min.js"></script>
+    <script src="{{ model.ResPath }}/jquery-ui/jquery-ui.min.js"></script>
+    <script src="{{ model.ResPath }}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{ model.ResPath }}/jstree/jstree.min.js"></script>
+</head>
+<body>
+
+<header id="head">
+    <div class="container">
+        {{ model.Banner }}
+    </div>
+</header>
+
+<div class="container">
+    <div class="row page">
+        <div class="col-md-3">
+            {{ model.Sidebar }}
+
+        </div>
+        <div class="col-md-9">
+            {{ model.Body }}
+            <p class="text-center" style="margin-top: 20px">
+                <a href="mailto:nghia.buivan@gameloft.com" class="btn btn-default btn-sm">Developed by nghia.buivan@gameloft.com</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<h3><i class="glyphicon glyphicon-edit"></i> {{ model.Title }}</h3>
+
+{% if model.Message %}
+    <div class="alert {% if model.Message.Value.Success %} alert-success {% else %} alert-danger {% endif %}">
+        {{ model.Message.Value.Content }}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form role="form" method="post" action="">
+            <div class="form-group">
+                <label for="old">Current password</label>
+                <input type="password" class="form-control" id="old" name="{{ model.CurPassField }}" autofocus />
+            </div>
+            <div class="form-group">
+                <label for="new">New password</label>
+                <input type="password" class="form-control" id="new" name="{{ model.NewPassField }}">
+            </div>
+            <div class="form-group">
+                <label for="new2">Confirm password</label>
+                <input type="password" class="form-control" id="new2" name="{{ model.New2PassField }}">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>

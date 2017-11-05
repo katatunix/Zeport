@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Zeport", "Zeport\Zeport.fsproj", "{11AA2281-BB7A-4B47-BE4A-B451BCDCB031}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Zeport.UnitTests", "Zeport.UnitTests\Zeport.UnitTests.fsproj", "{C9829588-415D-41E4-852B-DAEC107E69E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{11AA2281-BB7A-4B47-BE4A-B451BCDCB031}.Debug|x86.Build.0 = Debug|x86
 		{11AA2281-BB7A-4B47-BE4A-B451BCDCB031}.Release|x86.ActiveCfg = Release|x86
 		{11AA2281-BB7A-4B47-BE4A-B451BCDCB031}.Release|x86.Build.0 = Release|x86
+		{C9829588-415D-41E4-852B-DAEC107E69E7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9829588-415D-41E4-852B-DAEC107E69E7}.Debug|x86.Build.0 = Debug|Any CPU
+		{C9829588-415D-41E4-852B-DAEC107E69E7}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9829588-415D-41E4-852B-DAEC107E69E7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

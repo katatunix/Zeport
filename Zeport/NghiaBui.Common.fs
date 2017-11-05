@@ -129,6 +129,10 @@ module Common =
         if arr |> Array.length = 0 then None
         else Some (arr.[0], arr |> Array.tail)
 
+    let option2bool = function
+        | Some _ -> true
+        | None -> false
+
     module Rop =
         let liftBool f error =
             fun x -> if f x then Ok () else Error error
@@ -178,22 +182,3 @@ module Common =
         let readValueFromFile path =
             use stream = new FileStream (path, FileMode.Open)
             readValue stream
-
-    [<AllowNullLiteral>]
-    type WebPath (homeUrl, homeDisk) =
-        let trimSlash (str : string) =
-            if str.EndsWith "/" then
-                str.Substring (0, str.Length - 1)
-            else
-                str
-        let homeUrl = trimSlash homeUrl
-        let homeDisk = trimSlash homeDisk
-
-        member x.Home = homeUrl
-        member x.HomeWithSlash = homeUrl + "/"
-
-        member x.ConvertToDisk (url : string) =
-            if url.StartsWith x.HomeWithSlash then
-                Some (System.IO.Path.Combine (homeDisk, url.Substring homeUrl.Length))
-            else
-                None

@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open NghiaBui.Common
+open NghiaBui.Suave
 
 [<AutoOpen>]
 module Path =
@@ -9,6 +9,7 @@ module Path =
     type Path (homeUrl, homeDisk) =
         inherit WebPath (homeUrl, homeDisk)
 
+        member x.Res        = x.Home + "/res"
         member x.Login      = x.Home + "/login"
         member x.Logout     = x.Home + "/logout"
         member x.Setting    = x.Home + "/setting"

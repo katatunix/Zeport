@@ -3,6 +3,10 @@
 open Suave
 open Suave.Successful
 open Suave.Operators
+open Result
+open NghiaBui.Common
+open UiCommon
+open Controller
 
 module Uc =
 
@@ -10,14 +14,20 @@ module Uc =
         async {
             let! o = output
             match o with
-            | Ui.Output.Text text ->
+            | Text text ->
                 return! OK text ctx
-            | Ui.Output.Redirect path ->
+            | Redirect path ->
                 return! Redirection.FOUND path ctx }
+
+    let view404 =
+        context (
+            Session.getUsername
+            >> UiCommon.render404Full
+            >> makeWebPart )
 
     let viewHome =
         context (
-            Session.getUser
+            Session.getUsername
             >> UiHome.render
             >> makeWebPart )
         
@@ -28,7 +38,7 @@ module Uc =
     let viewLogin =
         context (
             Session.hasUser
-            >> DomainFuns.viewLogin
+            >> viewLogin
             >> UiLogin.renderView
             >> makeWebPart )
 
@@ -36,8 +46,28 @@ module Uc =
         request (fun request ->
             let result =
                 request
-                |> Controller.parseDoLoginRequest
-                |> DomainFuns.doLogin Db.checkLogin
-            let wp1 = result |> Session.handleDoLoginResult
-            let wp2 = result |> UiLogin.renderDo |> makeWebPart
-            wp1 >=> wp2)
+                |> parseDoLogin
+                ||> doLogin Db.checkLogin
+            (result |> Session.handleDoLoginResult)
+            >=> (result |> UiLogin.renderDo |> makeWebPart))
+
+    let viewCpass =
+        context (fun ctx ->
+            let username = Session.getUsername ctx
+            username.IsSome
+            |> viewCpass
+            |> UiCpass.renderView username
+            |> makeWebPart )
+
+    let doCpass =
+        let checkPwd username password =
+            Db.checkLogin username password |> option2bool
+
+        context (fun ctx ->
+            let username = Session.getUsername ctx
+            parseDoCpass ctx.request
+            |||> doCpass username checkPwd
+            |> bind (fun (username, password) ->
+                Db.updatePassword username password |> accessDeniedResult)
+            |> UiCpass.renderDo username
+            |> makeWebPart)

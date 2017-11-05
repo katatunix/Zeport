@@ -1,7 +1,6 @@
 ﻿namespace Zeport
 
-open Domain
-open Ui
+open UiCommon
 
 module UiLogin =
 
@@ -9,23 +8,26 @@ module UiLogin =
     let PASSWORD_FIELD = "p"
 
     type Model = {
+        Title : string
         UsernameField : string
         PasswordField : string
-        Message : string option
+        ErrorMessage : string option
         Username : string }
 
-    let renderStay message username =
+    let private render username errorMessage =
         async {
+            let TITLE = "Please login"
             let model = {
+                Title = TITLE
                 UsernameField = USERNAME_FIELD
                 PasswordField = PASSWORD_FIELD
-                Message = message
+                ErrorMessage = errorMessage
                 Username = username }
             let! html =
-                UiMainLayout.render
-                    "Please login"
-                    (UiBanner.render None UiBanner.Item.Login)
-                    (UiSidebar.renderProjectTree ())
+                renderMainLayout
+                    TITLE
+                    (renderBanner None Login)
+                    (renderProjectTree ())
                     (renderTemplate "Login.liquid" model)
             return Text html }
 
@@ -35,13 +37,13 @@ module UiLogin =
             | GoHome ->
                 return Redirect Path.Home
             | Stay ->
-                return! renderStay None "" }
+                return! render "" None }
 
-    let renderDo (result : DoLoginResult) =
+    let renderDo result =
         async {
             match result with
-            | Success _ ->
+            | Ok _ ->
                 return Redirect Path.Home
-            | Failed (Username username) ->
-                let message = Some "Unable to login: incorrect username or password"
-                return! renderStay message username }
+            | Error (Username username) ->
+                let errorMessage = Some "Unable to login: incorrect username or password"
+                return! render username errorMessage }

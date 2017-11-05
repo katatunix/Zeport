@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-3 col-sm-12">
+        <h1 id="logo"><a href="{{ model.Home.Url }}">Zeport<span>1.0</span></a></h1>
+    </div>
+    <div class="col-md-6 col-sm-8">
+        <nav>
+            <ul class="nav nav-pills" id="menu">
+                <li{{ model.Home.Css }}>
+                    <a href="{{ model.Home.Url }}"><i class="glyphicon glyphicon-home"></i> Home</a>
+                </li>
+                {% if model.Username %}
+                    <li{{ model.Cpass.Css }}>
+                        <a href="{{ model.Cpass.Url }}"><i class="glyphicon glyphicon-user"></i> {{ model.Username.Value }}</a>
+                    </li>
+                    <li{{ model.Setting.Css }}>
+                        <a href="{{ model.Setting.Url }}"><i class="glyphicon glyphicon-cog"></i> Setting</a>
+                    </li>
+                    <li>
+                        <a href="{{ model.LogoutUrl }}"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
+                    </li>
+                {% else %}
+                    <li{{ model.Login.Css }}>
+                        <a href="{{ model.Login.Url }}"><i class="glyphicon glyphicon-log-in"></i> Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-md-3 col-sm-4">
+        <form role="search" action="search">
+            <input type="text" class="form-control" placeholder="Search in reports" />
+        </form>
+    </div>
+</div>
