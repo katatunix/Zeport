@@ -18,8 +18,8 @@ module Session =
     let getUser ctx : User option =
         getSessionValue ctx (keyCurrentUser ())
 
-    let getUsername =
-        getUser >> Option.map (fun user -> user.Username)
+    let getUserId =
+        getUser >> Option.map (fun user -> user.Id)
 
     let hasUser ctx = (getUser ctx).IsSome
 

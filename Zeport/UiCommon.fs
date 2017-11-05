@@ -59,7 +59,7 @@ module UiCommon =
                 Body        = body }
             return! renderTemplate "MainLayout.liquid" model }
 
-    let renderBanner (username : Username option) (currentItem : BannerItem) =
+    let renderBanner (user : User option) (currentItem : BannerItem) =
         let css item =
             if item = currentItem then " class=\"active\"" else ""
         let info url item =
@@ -72,29 +72,29 @@ module UiCommon =
                 LogoutUrl   = Path.Logout
                 Setting     = info Path.Setting Setting
                 Cpass       = info Path.Cpass Cpass
-                Username    = username |> Option.map (fun u -> u.Value) }
+                Username    = user |> Option.map (fun u -> u.Username.Value) }
             return! renderTemplate "Banner.liquid" model }
 
     let renderProjectTree () =
         async {
             return! renderTemplate "ProjectTree.liquid" 0 }
 
-    let renderAccessDeniedFull username =
+    let renderAccessDeniedFull user =
         async {
             let! html =
                 renderMainLayout
                     "Access denied"
-                    (renderBanner username Nope)
+                    (renderBanner user Nope)
                     (renderProjectTree ())
                     (renderTemplate "AccessDenied.liquid" Path.Res)
             return Text html }
 
-    let render404Full username =
+    let render404Full user =
         async {
             let! html =
                 renderMainLayout
                     "Not found"
-                    (renderBanner username Nope)
+                    (renderBanner user Nope)
                     (renderProjectTree ())
                     (renderTemplate "Error404.liquid" Path.Res)
             return Text html }

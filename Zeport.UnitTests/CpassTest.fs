@@ -6,13 +6,13 @@ open Zeport
 module CpassTest =
 
     [<Test>]
-    let ``when view cpass, if not login yet, then Error of AccessDenied`` () =
+    let ``when view cpass, if not login yet, then access denied`` () =
         let alreadyLogin = false
         let result = viewCpass alreadyLogin
         assertAccessDenied result
 
     [<Test>]
-    let ``when view cpass, if already login, then Ok`` () =
+    let ``when view cpass, if already login, then ok`` () =
         let alreadyLogin = true
         let result = viewCpass alreadyLogin
         match result with
@@ -20,34 +20,35 @@ module CpassTest =
         | Error _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do cpass, if not login yet, then Error of AccessDenied`` () =
+    let ``when do cpass, if not login yet, then access denied`` () =
         let result = doCpass None (fun _ _ -> true) "" "" ""
         assertAccessDenied result
 
     [<Test>]
-    let ``when do cpass, if current password is wrong, then Error of the Other type`` () =
-        let result = doCpass (Username "" |> Some) (fun _ _ -> false) "" "" ""
+    let ``when do cpass, if current password is wrong, then error`` () =
+        let result = doCpass (Some 1) (fun _ _ -> false) "" "" ""
         match result with
         | Error (Other _) -> ()
         | _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do cpass, if the new password is empty, then Error of the Other type`` () =
-        let result = doCpass (Username "" |> Some) (fun _ _ -> true) "current" "" "bbb"
+    let ``when do cpass, if the new password is empty, then error`` () =
+        let result = doCpass (Some 1) (fun _ _ -> true) "current" "" "bbb"
         match result with
         | Error (Other _) -> ()
         | _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do cpass, if the 2 new passwords do not match, then Error of the Other type`` () =
-        let result = doCpass (Username "" |> Some) (fun _ _ -> true) "current" "aaa" "bbb"
+    let ``when do cpass, if the 2 new passwords do not match, then error`` () =
+        let result = doCpass (Some 1) (fun _ _ -> true) "current" "aaa" "bbb"
         match result with
         | Error (Other _) -> ()
         | _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do cpass, if new password is longer than 32, then Error of the Other type`` () =
-        let result = doCpass (Username "" |> Some) (fun _ _ -> true) "current"
+    let ``when do cpass, if new password is longer than 32, then error`` () =
+        let result = doCpass (Some 1) (fun _ _ -> true)
+                        "current"
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         match result with
@@ -55,9 +56,8 @@ module CpassTest =
         | _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do cpass, if everything is ok, then Ok of username and the new password`` () =
-        let username = Username "nghia.buivan"
-        let result = doCpass (username |> Some) (fun _ _ -> true) "" "aaa" "aaa"
+    let ``when do cpass, if everything is ok, then ok of the user ID and the new password`` () =
+        let result = doCpass (Some 1) (fun _ _ -> true) "" "aaa" "aaa"
         match result with
-        | Ok tuple -> Assert.AreEqual ((username, "aaa"), tuple)
+        | Ok tuple -> Assert.AreEqual ((1, "aaa"), tuple)
         | _ -> Assert.IsTrue false

@@ -7,6 +7,7 @@ module DomainCommon =
         member x.Value = let (Username value) = x in value
 
     type User = {
+        Id : int
         Username : Username
         IsAdmin : bool }
 

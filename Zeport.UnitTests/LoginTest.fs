@@ -18,9 +18,9 @@ module LoginTest =
         Assert.AreEqual (Stay, result)
 
     [<Test>]
-    let ``when do login, if username and password are correct, then Ok of that user`` () =
+    let ``when do login, if username and password are correct, then ok of that user`` () =
         let username = Username "nghia.buivan"
-        let user = { Username = username; IsAdmin = true }
+        let user = { Id = 1; Username = username; IsAdmin = true }
         let check = fun _ _ -> Some user
         let result = doLogin check username "12345678"
         match result with
@@ -28,7 +28,7 @@ module LoginTest =
         | Error _ -> Assert.IsTrue false
 
     [<Test>]
-    let ``when do login, if username and password are incorrect, then Error of that username`` () =
+    let ``when do login, if username and password are incorrect, then error of that username`` () =
         let username = Username "nghia.buivan"
         let check = fun _ _ -> None
         let result = doLogin check username "12345678"

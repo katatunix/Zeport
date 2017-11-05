@@ -4,7 +4,6 @@ open Suave
 open Suave.Successful
 open Suave.Operators
 open Result
-open NghiaBui.Common
 open UiCommon
 open Controller
 
@@ -21,13 +20,13 @@ module Uc =
 
     let view404 =
         context (
-            Session.getUsername
+            Session.getUser
             >> UiCommon.render404Full
             >> makeWebPart )
 
     let viewHome =
         context (
-            Session.getUsername
+            Session.getUser
             >> UiHome.render
             >> makeWebPart )
         
@@ -53,21 +52,19 @@ module Uc =
 
     let viewCpass =
         context (fun ctx ->
-            let username = Session.getUsername ctx
-            username.IsSome
+            let user = Session.getUser ctx
+            user.IsSome
             |> viewCpass
-            |> UiCpass.renderView username
+            |> UiCpass.renderView user
             |> makeWebPart )
 
     let doCpass =
-        let checkPwd username password =
-            Db.checkLogin username password |> option2bool
-
         context (fun ctx ->
-            let username = Session.getUsername ctx
+            let user = Session.getUser ctx
+            let userId = user |> Option.map (fun u -> u.Id)
             parseDoCpass ctx.request
-            |||> doCpass username checkPwd
-            |> bind (fun (username, password) ->
-                Db.updatePassword username password |> accessDeniedResult)
-            |> UiCpass.renderDo username
+            |||> doCpass userId Db.checkPassword
+            |> bind (fun (userId, password) ->
+                Db.updatePassword userId password |> accessDeniedResult)
+            |> UiCpass.renderDo user
             |> makeWebPart)

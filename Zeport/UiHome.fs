@@ -8,7 +8,7 @@ module UiHome =
         Title : string
         ResPath : string }
 
-    let render username =
+    let render user =
         async {
             let TITLE = "Welcome to Zeport"
             let model = {
@@ -17,7 +17,7 @@ module UiHome =
             let! html =
                 renderMainLayout
                     TITLE
-                    (renderBanner username Home)
+                    (renderBanner user Home)
                     (renderProjectTree ())
                     (renderTemplate "Home.liquid" model)
             return Text html }
