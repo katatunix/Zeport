@@ -64,37 +64,11 @@ module UiCommon =
             if item = currentItem then " class=\"active\"" else ""
         let info url item =
             { Url = url; Css = css item }
-
-        async {
-            let model = {
-                Home        = info Path.Home Home
-                Login       = info Path.Login Login
-                LogoutUrl   = Path.Logout
-                Setting     = info Path.Setting Setting
-                Cpass       = info Path.Cpass Cpass
-                Username    = user |> Option.map (fun u -> u.Username.Value) }
-            return! renderTemplate "Banner.liquid" model }
-
-    let renderProjectTree () =
-        async {
-            return! renderTemplate "ProjectTree.liquid" 0 }
-
-    let renderAccessDeniedFull user =
-        async {
-            let! html =
-                renderMainLayout
-                    "Access denied"
-                    (renderBanner user Nope)
-                    (renderProjectTree ())
-                    (renderTemplate "AccessDenied.liquid" Path.Res)
-            return Text html }
-
-    let render404Full user =
-        async {
-            let! html =
-                renderMainLayout
-                    "Not found"
-                    (renderBanner user Nope)
-                    (renderProjectTree ())
-                    (renderTemplate "Error404.liquid" Path.Res)
-            return Text html }
+        let model = {
+            Home        = info Path.Home Home
+            Login       = info Path.Login Login
+            LogoutUrl   = Path.Logout
+            Setting     = info Path.Setting Setting
+            Cpass       = info Path.Cpass Cpass
+            Username    = user |> Option.map (fun u -> u.Username.Value) }
+        renderTemplate "Banner.liquid" model

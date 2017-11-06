@@ -18,16 +18,18 @@ module Uc =
             | Redirect path ->
                 return! Redirection.FOUND path ctx }
 
+    let private navi () = buildNavi Db.findTeamsByParent Db.findProjectsByParent
+
     let view404 =
         context (
             Session.getUser
-            >> UiCommon.render404Full
+            >> UiError.render404 (navi ())
             >> makeWebPart )
 
     let viewHome =
         context (
             Session.getUser
-            >> UiHome.render
+            >> UiHome.render (navi ())
             >> makeWebPart )
         
     let logout =
@@ -38,7 +40,7 @@ module Uc =
         context (
             Session.hasUser
             >> viewLogin
-            >> UiLogin.renderView
+            >> UiLogin.renderView (navi ())
             >> makeWebPart )
 
     let doLogin =
@@ -48,14 +50,14 @@ module Uc =
                 |> parseDoLogin
                 ||> doLogin Db.checkLogin
             (result |> Session.handleDoLoginResult)
-            >=> (result |> UiLogin.renderDo |> makeWebPart))
+            >=> (result |> UiLogin.renderDo (navi ()) |> makeWebPart))
 
     let viewCpass =
         context (fun ctx ->
             let user = Session.getUser ctx
             user.IsSome
             |> viewCpass
-            |> UiCpass.renderView user
+            |> UiCpass.renderView (navi ()) user
             |> makeWebPart )
 
     let doCpass =
@@ -66,5 +68,5 @@ module Uc =
             |||> doCpass userId Db.checkPassword
             |> bind (fun (userId, password) ->
                 Db.updatePassword userId password |> accessDeniedResult)
-            |> UiCpass.renderDo user
+            |> UiCpass.renderDo (navi ()) user
             |> makeWebPart)

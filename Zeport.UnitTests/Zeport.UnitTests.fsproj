@@ -50,6 +50,7 @@
     <Compile Include="Common.fs" />
     <Compile Include="LoginTest.fs" />
     <Compile Include="CpassTest.fs" />
+    <Compile Include="NaviTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zeport\Zeport.fsproj">

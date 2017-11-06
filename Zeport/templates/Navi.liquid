@@ -1,0 +1,12 @@
+<div id="jstree1" class="demo">
+    <ul>{{ model }}</ul>
+</div>
+
+<script>    
+    $('#jstree1').jstree({'plugins':["wholerow"]});
+    $('#jstree1').on("changed.jstree", function (e, data) {
+        if (data.node && data.node.a_attr && data.node.a_attr.href.length > 1) {
+            window.location = data.node.a_attr.href;
+        }
+    });
+</script>

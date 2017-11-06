@@ -14,6 +14,7 @@ module Path =
         member x.Logout     = x.Home + "/logout"
         member x.Setting    = x.Home + "/setting"
         member x.Cpass      = x.Home + "/cpass"
+        member x.Report     = x.Home + "/report"
 
     let mutable Path : Path = null
 

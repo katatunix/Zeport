@@ -15,7 +15,7 @@ module UiCpass =
         NewPassField : string
         New2PassField : string }
 
-    let private render user message =
+    let private render navi user message =
         async {
             let TITLE = "Change password"
             let model = {
@@ -28,20 +28,20 @@ module UiCpass =
                 renderMainLayout
                     TITLE
                     (renderBanner user Cpass)
-                    (renderProjectTree ())
+                    (UiNavi.render navi)
                     (renderTemplate "Cpass.liquid" model)
             return Text html }
 
-    let renderView user = function
+    let renderView navi user = function
         | Error AccessDenied ->
-            renderAccessDeniedFull user
+            UiError.renderAccessDenied navi user
         | _ ->
-            render user None
+            render navi user None
 
-    let renderDo user = function
+    let renderDo navi user = function
         | Error AccessDenied ->
-            renderAccessDeniedFull user
+            UiError.renderAccessDenied navi user
         | Error (Other str) ->
-            render user (Some { Success = false; Content = str })
+            render navi user (Some { Success = false; Content = str })
         | Ok _ ->
-            render user (Some { Success = true; Content = "Saved" })
+            render navi user (Some { Success = true; Content = "Saved" })
