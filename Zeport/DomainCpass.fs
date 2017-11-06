@@ -9,13 +9,13 @@ module DomainCpass =
         else
             Error AccessDenied
 
-    let doCpass (userId : int option) checkPass
+    let doCpass (user : User option) checkPass
                 (currentPass : string) (newPass : string) newPass2 =
-        match userId with
+        match user with
         | None ->
             AccessDenied |> Error
-        | Some userId ->
-            if checkPass userId currentPass = false then
+        | Some user ->
+            if checkPass user.Id currentPass = false then
                 Other "Wrong current password" |> Error
             elif newPass <> newPass2 then
                 Other "The two new passwords do not match" |> Error
@@ -24,4 +24,4 @@ module DomainCpass =
             elif newPass.Length > 32 then
                 Other "The length of the new password is greater than 32" |> Error
             else
-                (userId, newPass) |> Ok
+                (user, newPass) |> Ok

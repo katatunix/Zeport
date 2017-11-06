@@ -11,7 +11,7 @@ module UiNavi =
     let private renderProject (sb : StringBuilder) (project : Project) =
         sb  .Append("""<li data-jstree='{"icon":"glyphicon glyphicon-file"}'>""")
             .Append("<a href=\"").Append(reportLink project.Id).Append("\">")
-                .Append(project.Name).Append("""</a>""")
+                .Append(project.Name).Append("</a>")
             .Append("""</li>""") |> ignore
 
     let private isTeamNode = function

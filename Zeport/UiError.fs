@@ -4,22 +4,12 @@ open UiCommon
 
 module UiError =
 
-    let renderAccessDenied navi user =
+    let renderAccessDenied () =
         async {
-            let! html =
-                renderMainLayout
-                    "Access denied"
-                    (renderBanner user Nope)
-                    (UiNavi.render navi)
-                    (renderTemplate "AccessDenied.liquid" Path.Res)
-            return Text html }
+            let! html = renderTemplate "AccessDenied.liquid" Path.Res
+            return Content ("Access denied", html) }
 
-    let render404 navi user =
+    let render404 () =
         async {
-            let! html =
-                renderMainLayout
-                    "Not found"
-                    (renderBanner user Nope)
-                    (UiNavi.render navi)
-                    (renderTemplate "Error404.liquid" Path.Res)
-            return Text html }
+            let! html = renderTemplate "Error404.liquid" Path.Res
+            return Content ("Not found", html) }

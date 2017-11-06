@@ -45,6 +45,8 @@ module DomainCommon =
                 |> List.map buildTeam
             TeamNode (team, teamNodes @ projectNodes)
 
-        let rootTeams = findTeamsByParent None |> List.map buildTeam
-        let rootProjects = findProjectsByParent None |> List.map ProjectNode
-        rootTeams @ rootProjects
+        let rootTeamNodes =
+            findTeamsByParent None |> List.map buildTeam
+        let rootProjectsNodes =
+            findProjectsByParent None |> List.map ProjectNode
+        rootTeamNodes @ rootProjectsNodes

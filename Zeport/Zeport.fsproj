@@ -68,11 +68,13 @@
     <Compile Include="Db.fs" />
     <Compile Include="Path.fs" />
     <Compile Include="UiCommon.fs" />
+    <Compile Include="UiBanner.fs" />
     <Compile Include="UiNavi.fs" />
     <Compile Include="UiError.fs" />
     <Compile Include="UiHome.fs" />
     <Compile Include="UiLogin.fs" />
     <Compile Include="UiCpass.fs" />
+    <Compile Include="UiMainLayout.fs" />
     <Compile Include="Controller.fs" />
     <Compile Include="Uc.fs" />
     <Compile Include="App.fs" />

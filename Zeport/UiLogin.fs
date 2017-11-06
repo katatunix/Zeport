@@ -14,7 +14,7 @@ module UiLogin =
         ErrorMessage : string option
         Username : string }
 
-    let private render navi username errorMessage =
+    let private render username errorMessage =
         async {
             let TITLE = "Please login"
             let model = {
@@ -23,27 +23,22 @@ module UiLogin =
                 PasswordField = PASSWORD_FIELD
                 ErrorMessage = errorMessage
                 Username = username }
-            let! html =
-                renderMainLayout
-                    TITLE
-                    (renderBanner None Login)
-                    (UiNavi.render navi)
-                    (renderTemplate "Login.liquid" model)
-            return Text html }
+            let! html = renderTemplate "Login.liquid" model
+            return Content (TITLE, html) }
 
-    let renderView navi (result : ViewLoginResult) =
+    let renderView result =
         async {
             match result with
             | GoHome ->
                 return Redirect Path.Home
             | Stay ->
-                return! render navi "" None }
+                return! render "" None }
 
-    let renderDo navi result =
+    let renderDo result =
         async {
             match result with
             | Ok _ ->
                 return Redirect Path.Home
             | Error (Username username) ->
                 let errorMessage = Some "Unable to login: incorrect username or password"
-                return! render navi username errorMessage }
+                return! render username errorMessage }

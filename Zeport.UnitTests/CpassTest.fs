@@ -24,30 +24,32 @@ module CpassTest =
         let result = doCpass None (fun _ _ -> true) "" "" ""
         assertAccessDenied result
 
+    let sampleUser = { Id = 1; Username = Username "nghia.buivan"; IsAdmin = true }
+
     [<Test>]
     let ``when do cpass, if current password is wrong, then error`` () =
-        let result = doCpass (Some 1) (fun _ _ -> false) "" "" ""
+        let result = doCpass (Some sampleUser) (fun _ _ -> false) "" "" ""
         match result with
         | Error (Other _) -> good ()
         | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if the new password is empty, then error`` () =
-        let result = doCpass (Some 1) (fun _ _ -> true) "current" "" "bbb"
+        let result = doCpass (Some sampleUser) (fun _ _ -> true) "current" "" "bbb"
         match result with
         | Error (Other _) -> good ()
         | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if the 2 new passwords do not match, then error`` () =
-        let result = doCpass (Some 1) (fun _ _ -> true) "current" "aaa" "bbb"
+        let result = doCpass (Some sampleUser) (fun _ _ -> true) "current" "aaa" "bbb"
         match result with
         | Error (Other _) -> good ()
         | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if new password is longer than 32, then error`` () =
-        let result = doCpass (Some 1) (fun _ _ -> true)
+        let result = doCpass (Some sampleUser) (fun _ _ -> true)
                         "current"
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -56,8 +58,8 @@ module CpassTest =
         | _ -> bad ()
 
     [<Test>]
-    let ``when do cpass, if everything is ok, then ok of the user ID and the new password`` () =
-        let result = doCpass (Some 1) (fun _ _ -> true) "" "aaa" "aaa"
+    let ``when do cpass, if everything is ok, then ok of the user and the new password`` () =
+        let result = doCpass (Some sampleUser) (fun _ _ -> true) "" "aaa" "aaa"
         match result with
-        | Ok tuple -> Assert.AreEqual ((1, "aaa"), tuple)
+        | Ok tuple -> Assert.AreEqual ((sampleUser, "aaa"), tuple)
         | _ -> bad ()

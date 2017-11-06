@@ -9,39 +9,34 @@ module UiCpass =
     let NEW2_FIELD = "new2"
 
     type Model = {
-        Title : string
-        Message : Message option
-        CurPassField : string
-        NewPassField : string
-        New2PassField : string }
+        Title       : string
+        Message     : Message option
+        CurField    : string
+        NewField    : string
+        New2Field   : string }
 
-    let private render navi user message =
+    let private render message =
         async {
             let TITLE = "Change password"
             let model = {
-                Title = TITLE
-                Message = message
-                CurPassField = CUR_FIELD
-                NewPassField = NEW_FIELD
-                New2PassField = NEW2_FIELD }
-            let! html =
-                renderMainLayout
-                    TITLE
-                    (renderBanner user Cpass)
-                    (UiNavi.render navi)
-                    (renderTemplate "Cpass.liquid" model)
-            return Text html }
+                Title       = TITLE
+                Message     = message
+                CurField    = CUR_FIELD
+                NewField    = NEW_FIELD
+                New2Field   = NEW2_FIELD }
+            let! html = renderTemplate "Cpass.liquid" model
+            return Content (TITLE, html) }
 
-    let renderView navi user = function
+    let renderView = function
         | Error AccessDenied ->
-            UiError.renderAccessDenied navi user
+            UiError.renderAccessDenied ()
         | _ ->
-            render navi user None
+            render None
 
-    let renderDo navi user = function
+    let renderDo = function
         | Error AccessDenied ->
-            UiError.renderAccessDenied navi user
+            UiError.renderAccessDenied ()
         | Error (Other str) ->
-            render navi user (Some { Success = false; Content = str })
+            render (Some { Success = false; Content = str })
         | Ok _ ->
-            render navi user (Some { Success = true; Content = "Saved" })
+            render (Some { Success = true; Content = "Saved" })
