@@ -1,18 +1,42 @@
 ﻿namespace Zeport
 
+open MySql.Data.MySqlClient
+
 module Db =
 
-    let checkLogin (username : Username) (password : string) =
-        match username.Value, password with
-        | "nghia.buivan", "12345678" ->
-            Some { Id = 1; Username = username; IsAdmin = true }
-        | _ ->
+    let private SERVER      = "localhost"
+    let private PORT        = 3306
+    let private USERNAME    = "root"
+    let private PASSWORD    = "root"
+    let private DB_NAME     = "Zeport"
+
+    let private connString =
+        sprintf "Server=%s; Port=%d; UserID=%s; Password=%s; Database=%s"
+                    SERVER PORT USERNAME PASSWORD DB_NAME
+    
+    let openConn () =
+        let conn = new MySqlConnection (connString)
+        conn.Open ()
+        conn
+
+    let checkLogin conn (username : Username) (password : string) =
+        use cmd = new MySqlCommand ("SELECT * FROM User WHERE Username=@U AND Password=@P", conn)
+        cmd.Prepare ()
+        cmd.Parameters.AddWithValue ("@U", username.Value) |> ignore
+        cmd.Parameters.AddWithValue ("@P", password) |> ignore
+        use reader = cmd.ExecuteReader ()
+        if reader.Read () then
+            Some {
+                Id = reader.GetInt32 "Id"
+                Username = reader.GetString "Username" |> Username
+                IsAdmin = reader.GetInt32 "IsAdmin" = 1 }
+        else
             None
 
-    let checkPassword (userId : int) (password : string) =
+    let checkPassword (conn : MySqlConnection) (userId : int) (password : string) =
         true
 
-    let updatePassword (userId : int) (password : string) =
+    let updatePassword (conn : MySqlConnection) (userId : int) (password : string) =
         if true then
             Ok ()
         else
@@ -25,11 +49,11 @@ module Db =
     let project3 : Project = { Id = 3; Name = "Project3"; Des = None }
     let project4 : Project = { Id = 4; Name = "Project4"; Des = None }
 
-    let findTeamsByParent = function
+    let findTeamsByParent conn = function
         | None -> [ team1; team2 ]
         | Some _ -> []
 
-    let findProjectsByParent = function
+    let findProjectsByParent conn = function
         | None -> []
         | Some 1 -> [ project1; project2 ]
         | Some 2 -> [ project3; project4 ]

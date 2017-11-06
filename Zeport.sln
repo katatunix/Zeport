@@ -5,6 +5,8 @@ Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Zeport", "Zeport\Zeport.fsp
 EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Zeport.UnitTests", "Zeport.UnitTests\Zeport.UnitTests.fsproj", "{C9829588-415D-41E4-852B-DAEC107E69E7}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Zeport.IntegrationTests", "Zeport.IntegrationTests\Zeport.IntegrationTests.fsproj", "{4F013F33-046C-48B3-A3CB-F2AF2D13967A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,5 +21,9 @@ Global
 		{C9829588-415D-41E4-852B-DAEC107E69E7}.Debug|x86.Build.0 = Debug|Any CPU
 		{C9829588-415D-41E4-852B-DAEC107E69E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9829588-415D-41E4-852B-DAEC107E69E7}.Release|x86.Build.0 = Release|Any CPU
+		{4F013F33-046C-48B3-A3CB-F2AF2D13967A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F013F33-046C-48B3-A3CB-F2AF2D13967A}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F013F33-046C-48B3-A3CB-F2AF2D13967A}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F013F33-046C-48B3-A3CB-F2AF2D13967A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
