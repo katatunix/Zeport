@@ -16,8 +16,8 @@ module CpassTest =
         let alreadyLogin = true
         let result = viewCpass alreadyLogin
         match result with
-        | Ok _ -> ()
-        | Error _ -> Assert.IsTrue false
+        | Ok _ -> good ()
+        | Error _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if not login yet, then access denied`` () =
@@ -28,22 +28,22 @@ module CpassTest =
     let ``when do cpass, if current password is wrong, then error`` () =
         let result = doCpass (Some 1) (fun _ _ -> false) "" "" ""
         match result with
-        | Error (Other _) -> ()
-        | _ -> Assert.IsTrue false
+        | Error (Other _) -> good ()
+        | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if the new password is empty, then error`` () =
         let result = doCpass (Some 1) (fun _ _ -> true) "current" "" "bbb"
         match result with
-        | Error (Other _) -> ()
-        | _ -> Assert.IsTrue false
+        | Error (Other _) -> good ()
+        | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if the 2 new passwords do not match, then error`` () =
         let result = doCpass (Some 1) (fun _ _ -> true) "current" "aaa" "bbb"
         match result with
-        | Error (Other _) -> ()
-        | _ -> Assert.IsTrue false
+        | Error (Other _) -> good ()
+        | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if new password is longer than 32, then error`` () =
@@ -52,12 +52,12 @@ module CpassTest =
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         match result with
-        | Error (Other _) -> ()
-        | _ -> Assert.IsTrue false
+        | Error (Other _) -> good ()
+        | _ -> bad ()
 
     [<Test>]
     let ``when do cpass, if everything is ok, then ok of the user ID and the new password`` () =
         let result = doCpass (Some 1) (fun _ _ -> true) "" "aaa" "aaa"
         match result with
         | Ok tuple -> Assert.AreEqual ((1, "aaa"), tuple)
-        | _ -> Assert.IsTrue false
+        | _ -> bad ()

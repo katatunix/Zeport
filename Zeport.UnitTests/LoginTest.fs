@@ -25,7 +25,7 @@ module LoginTest =
         let result = doLogin check username "12345678"
         match result with
         | Ok actualUser -> Assert.AreEqual (user, actualUser)
-        | Error _ -> Assert.IsTrue false
+        | Error _ -> bad ()
 
     [<Test>]
     let ``when do login, if username and password are incorrect, then error of that username`` () =
@@ -33,5 +33,5 @@ module LoginTest =
         let check = fun _ _ -> None
         let result = doLogin check username "12345678"
         match result with
-        | Ok _ -> Assert.IsTrue false
+        | Ok _ -> bad ()
         | Error actualUsername -> Assert.AreEqual (username, actualUsername)
