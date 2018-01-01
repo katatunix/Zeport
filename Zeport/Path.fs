@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open NghiaBui.Suave
+open NghiaBui.MySuave.Main
 
 [<AutoOpen>]
 module Path =

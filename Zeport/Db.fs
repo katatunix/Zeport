@@ -8,28 +8,28 @@ module Db =
     let private PORT        = 3306
     let private USERNAME    = "root"
     let private PASSWORD    = "root"
-    let private DB_NAME     = "Zeport"
+    let private DB_NAME     = "zeport"
 
-    let private connString =
+    let private CONN_STRING =
         sprintf "Server=%s; Port=%d; UserID=%s; Password=%s; Database=%s"
                     SERVER PORT USERNAME PASSWORD DB_NAME
     
     let openConn () =
-        let conn = new MySqlConnection (connString)
+        let conn = new MySqlConnection (CONN_STRING)
         conn.Open ()
         conn
 
     let checkLogin conn (username : Username) (password : string) =
-        use cmd = new MySqlCommand ("SELECT * FROM User WHERE Username=@U AND Password=@P", conn)
+        use cmd = new MySqlCommand ("SELECT * FROM user WHERE username=@U AND password=@P", conn)
         cmd.Prepare ()
         cmd.Parameters.AddWithValue ("@U", username.Value) |> ignore
         cmd.Parameters.AddWithValue ("@P", password) |> ignore
         use reader = cmd.ExecuteReader ()
         if reader.Read () then
             Some {
-                Id = reader.GetInt32 "Id"
-                Username = reader.GetString "Username" |> Username
-                IsAdmin = reader.GetInt32 "IsAdmin" = 1 }
+                Id = reader.GetInt32 "id"
+                Username = reader.GetString "username" |> Username
+                IsAdmin = reader.GetInt32 "is_admin" = 1 }
         else
             None
 
@@ -42,6 +42,8 @@ module Db =
         else
             Error (sprintf "Could not found the user with ID %d" userId)
 
+    //===================================================================================================
+    // TODO
     let team1 : Team = { Id = 1; Name = "Team1"; Des = None }
     let team2 : Team = { Id = 2; Name = "Team2"; Des = None }
     let project1 : Project = { Id = 1; Name = "Project1"; Des = None }

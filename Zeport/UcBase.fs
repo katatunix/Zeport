@@ -2,18 +2,24 @@
 
 open Suave
 open Suave.Successful
-open UiCommon
 open MySql.Data.MySqlClient
 
-module UcCommon =
+open Ui
+
+[<AutoOpen>]
+module UcBase =
+
+    let updateSession = function
+        | Ok user -> Session.setUser user
+        | Error _ -> NghiaBui.MySuave.Main.idWebPart
 
     let makeWebPart output ctx =
         async {
             let! o = output
             match o with
-            | Output.Text text ->
+            | FinalOutput.Text text ->
                 return! OK text ctx
-            | Output.Redirect path ->
+            | FinalOutput.Redirect path ->
                 return! Redirection.FOUND path ctx }
 
     let user (f : User option -> WebPart) =

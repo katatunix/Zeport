@@ -1,9 +1,9 @@
 ﻿namespace Zeport
 
 [<AutoOpen>]
-module DomainLogin =
+module Login =
 
-    type ViewLoginResult =
+    type ViewResult =
         | GoHome
         | Stay
 

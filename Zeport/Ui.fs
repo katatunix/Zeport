@@ -2,7 +2,7 @@
 
 open Suave.DotLiquid
 
-module UiCommon =
+module Ui =
 
     do setCSharpNamingConvention ()
 
@@ -12,14 +12,14 @@ module UiCommon =
     let renderTemplate file =
         renderPageFile (System.IO.Path.Combine (templatesDir, file))
 
-    type Output =
+    type FinalOutput =
         | Text of string
         | Redirect of string
 
-    type Body =
-        | Content of string * string
+    type ZoneOutput =
+        | Text of string * string // title * content
         | Redirect of string
 
-    type Message = {
+    type DisplayMessage = {
         Success : bool
         Content : string }

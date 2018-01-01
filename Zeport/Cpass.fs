@@ -1,7 +1,7 @@
 ﻿namespace Zeport
 
 [<AutoOpen>]
-module DomainCpass =
+module Cpass =
 
     let viewCpass alreadyLogin =
         if alreadyLogin then

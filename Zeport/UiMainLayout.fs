@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open UiCommon
+open Ui
 
 module UiMainLayout =
 
@@ -15,9 +15,9 @@ module UiMainLayout =
         async {
             let! body = body
             match body with
-            | Body.Redirect path ->
-                return Output.Redirect path
-            | Body.Content (title, bodyText) ->
+            | Redirect path ->
+                return FinalOutput.Redirect path
+            | Text (title, text) ->
                 let! banner = UiBanner.render user curBannerItem
                 let! sidebar = UiNavi.render navi
                 let model = {
@@ -25,6 +25,6 @@ module UiMainLayout =
                     Title       = title
                     Banner      = banner
                     Sidebar     = sidebar
-                    Body        = bodyText }
-                let! html = renderTemplate "MainLayout.liquid" model
-                return Output.Text html }
+                    Body        = text }
+                let! fullHtml = renderTemplate "MainLayout.liquid" model
+                return FinalOutput.Text fullHtml }

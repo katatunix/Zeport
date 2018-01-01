@@ -1,15 +1,7 @@
 ﻿namespace Zeport
 
 [<AutoOpen>]
-module DomainCommon =
-
-    type MaybeAccessDeniedError<'T> =
-        | AccessDenied
-        | Other of 'T
-
-    let accessDeniedResult = function
-        | Ok x -> Ok x
-        | Error x -> Error (Other x)
+module Base =
 
     type Username = Username of string with
         member x.Value = let (Username value) = x in value
@@ -35,6 +27,10 @@ module DomainCommon =
 
     type Navi = NaviNode list
 
+    type AccessDeniedError<'T> =
+        | AccessDenied
+        | Other of 'T
+
     let buildNavi findTeamsByParent findProjectsByParent : Navi =
         let rec buildTeam (team : Team) =
             let projectNodes =
@@ -50,3 +46,7 @@ module DomainCommon =
         let rootProjectsNodes =
             findProjectsByParent None |> List.map ProjectNode
         rootTeamNodes @ rootProjectsNodes
+
+    let accessDeniedResult = function
+        | Ok x -> Ok x
+        | Error x -> Error (Other x)

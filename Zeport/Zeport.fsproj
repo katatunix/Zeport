@@ -59,20 +59,24 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="NghiaBui.Common">
+      <HintPath>..\libs\NghiaBui.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NghiaBui.MySuave">
+      <HintPath>..\libs\NghiaBui.MySuave.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
-    <Compile Include="NghiaBui.Common.fs" />
-    <Compile Include="NghiaBui.Suave.fs" />
-    <Compile Include="DomainCommon.fs" />
-    <Compile Include="DomainLogin.fs" />
-    <Compile Include="DomainCpass.fs" />
+    <Compile Include="Base.fs" />
+    <Compile Include="Login.fs" />
+    <Compile Include="Cpass.fs" />
     <Compile Include="Session.fs" />
     <Compile Include="Db.fs" />
     <Compile Include="Path.fs" />
-    <Compile Include="UiCommon.fs" />
+    <Compile Include="Ui.fs" />
     <Compile Include="UiBanner.fs" />
     <Compile Include="UiNavi.fs" />
     <Compile Include="UiError.fs" />
@@ -81,7 +85,7 @@
     <Compile Include="UiCpass.fs" />
     <Compile Include="UiMainLayout.fs" />
     <Compile Include="Controller.fs" />
-    <Compile Include="UcCommon.fs" />
+    <Compile Include="UcBase.fs" />
     <Compile Include="Uc.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Main.fs" />

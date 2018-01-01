@@ -9,11 +9,11 @@ module App =
     let create homeUrl homeDisk sessionKeyPrefix =
         Zeport.Path.init homeUrl homeDisk
         Session.setKeyPrefix sessionKeyPrefix
-        UiCommon.init (System.IO.Path.Combine (homeDisk, "templates"))
+        Ui.init (System.IO.Path.Combine (homeDisk, "templates"))
 
         Session.init
         >=> choose [
-            NghiaBui.Suave.resource Path.GetTail
+            NghiaBui.MySuave.Main.resource Path.GetTail
 
             choose [ path Path.Home; path Path.HomeWithSlash ] >=> Uc.viewHome
 

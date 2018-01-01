@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open UiCommon
+open Ui
 
 module UiLogin =
 
@@ -24,7 +24,7 @@ module UiLogin =
                 ErrorMessage = errorMessage
                 Username = username }
             let! html = renderTemplate "Login.liquid" model
-            return Content (TITLE, html) }
+            return Text (TITLE, html) }
 
     let renderView result =
         async {

@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open UiCommon
+open Ui
 
 module UiBanner =
 

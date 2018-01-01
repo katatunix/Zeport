@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open UiCommon
+open Ui
 
 module UiHome =
 
@@ -15,4 +15,4 @@ module UiHome =
                 Title = TITLE
                 ResPath = Path.Res }
             let! html = renderTemplate "Home.liquid" model
-            return Content (TITLE, html) }
+            return Text (TITLE, html) }

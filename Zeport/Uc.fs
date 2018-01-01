@@ -2,8 +2,8 @@
 
 open Suave
 open Suave.Operators
+
 open Controller
-open UcCommon
 
 module Uc =
 
@@ -33,9 +33,11 @@ module Uc =
 
     let doLogin =
         requestconn (fun request conn ->
-            let result = request |> parseDoLogin ||> doLogin (Db.checkLogin conn)
-            (result |> Session.handleDoLoginResult)
-            >=> (   result
+            let loginResult = request
+                                |> parseDoLogin
+                                ||> doLogin (Db.checkLogin conn)
+            (loginResult |> updateSession)
+            >=> (   loginResult
                     |> UiLogin.renderDo
                     |> UiMainLayout.render None UiBanner.Login (navi conn)
                     |> makeWebPart ))

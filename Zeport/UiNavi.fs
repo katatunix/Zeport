@@ -1,7 +1,8 @@
 ﻿namespace Zeport
 
 open System.Text
-open UiCommon
+
+open Ui
 
 module UiNavi =
 

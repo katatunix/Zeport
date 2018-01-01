@@ -1,6 +1,6 @@
 ﻿namespace Zeport
 
-open UiCommon
+open Ui
 
 module UiCpass =
 
@@ -10,7 +10,7 @@ module UiCpass =
 
     type Model = {
         Title       : string
-        Message     : Message option
+        Message     : DisplayMessage option
         CurField    : string
         NewField    : string
         New2Field   : string }
@@ -25,7 +25,7 @@ module UiCpass =
                 NewField    = NEW_FIELD
                 New2Field   = NEW2_FIELD }
             let! html = renderTemplate "Cpass.liquid" model
-            return Content (TITLE, html) }
+            return Text (TITLE, html) }
 
     let renderView = function
         | Error AccessDenied ->
